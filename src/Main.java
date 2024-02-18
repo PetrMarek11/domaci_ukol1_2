@@ -1,15 +1,30 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        Prodejce prodejce1 = new Prodejce("Jan", "Novák", LocalDate.of(1980, 1, 1),
+                5, new BigDecimal("10.5"), "Praha", "ABC123", new BigDecimal("8.5"), "192.168.1.1");
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        Prodejce prodejce2 = new Prodejce("Eva", "Veselá", LocalDate.of(1992, 5, 15),
+                8, new BigDecimal("8.2"), "Brno", "XYZ456", new BigDecimal("7.2"), "192.168.1.2");
+
+
+        Prodejce[] prodejci = {prodejce1, prodejce2};
+        System.out.println("Průměrné množství prodané mrkve na jednu smlouvu: " + vypocetPrumeru(prodejci));
+    }
+
+    private static BigDecimal vypocetPrumeru(Prodejce[] prodejci) {
+        if (prodejci.length == 0) {
+            return BigDecimal.ZERO;
         }
+
+        BigDecimal soucetMrkve = BigDecimal.ZERO;
+        int pocetSmluv = 0;
+
+        for (Prodejce prodejce : prodejci) {
+            soucetMrkve = soucetMrkve.add(prodejce.getMnozstviProdaneMrkve());
+            pocetSmluv += prodejce.getPocetSmluv();
+        }
+
+        return soucetMrkve.divide(BigDecimal.valueOf(pocetSmluv), 2, BigDecimal.ROUND_HALF_UP);
     }
 }
+
